@@ -1,4 +1,4 @@
-/************************************************************************
+/***********************************************************************
     > File Name: RSA.h
     > Author: zhangab
     > Mail: 2411035458@qq.com
@@ -13,7 +13,7 @@ class RSA {
   public :
 
     // 非递归扩展欧几里得
-    long long exgcd(long long m, long long n, long long &x, long long &y) { 
+    long long exgcd(long long m, long long n, long long &x, long long &y) {
         if (n == 0) {
             x = 1; y = 0;
             return m;
@@ -74,6 +74,7 @@ class RSA {
 
     // Miller_Rabin素数测试
     bool Miller_Rabin(long long n) {
+        if (n < 0) n = -n;
         if (n == 2) return true;
         int s = 20, t = 0;
         long long x[65];
@@ -95,17 +96,24 @@ class RSA {
         return true;
     }
 
+    long long getPublicKey() {
+        return publicKey;
+    }
+
+    long long getPrivateKey() {
+        return privateKey;
+    }
+
     // 随机素数生成
     long long primeProduce() {
         srand(time(0));
         long long p = rand() * rand() * rand() * rand();
         p |= 1;
-        if (p < 0) p = -p;
         while (!Miller_Rabin(p)) p += 2;
-        return p;
+        return abs(p);
     }
 
-    // 初始化赋值p, q, n, phi
+    // 初始化赋值p, q, n, phi, 并随机生成publicKey, privateKey
     void init() {
         p = primeProduce();
         q = primeProduce();
@@ -115,23 +123,32 @@ class RSA {
         }
         n = p * q;
         phi = n / p * (p - 1) / q * (q - 1);
+        publicKey = primeProduce();
+        privateKey = inv(publicKey, phi);
+        printf ("p = %lld, q = %lld\n", p, q);
+        printf ("n = p x q = %lld\n", n);
+        printf ("phi(n) = %lld\n", phi);
+        printf ("publicKey : %lld\n", publicKey);
+        printf ("privateKey : %lld\n", privateKey);
     }
 
-    vector<long, long> encrypt(string text) {
+    // 加密,把每个字符转化成long long
+    vector<long long> encrypt(string text, long long Key) {
         long long res;
         vector<long long> entext;
         for (auto i: text) {
-            res = pow_mod(i, publicKey, n);
+            res = pow_mod(i, Key, n);
             entext.push_back(res);
         }
         return entext;
     }
 
-    string decrypt(vector text) {
+    // 解密,把一组long long 的序列转化为字符串
+    string decrypt(vector<long long> text, long long Key) {
         long long res;
         string detext;
         for (auto i: text) {
-            res = pow_mod(i, privateKey, n);
+            res = pow_mod(i, Key, n);
             detext += (char)res;
         }
         return detext;
