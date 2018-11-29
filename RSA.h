@@ -2,7 +2,7 @@
     > File Name: RSA.h
     > Author: zhangab
     > Mail: 2411035458@qq.com
-    > Created Time: 2018å¹´11æœˆ28æ—¥ æ˜ŸæœŸä¸‰ 12æ—¶45åˆ†38ç§’
+    > Created Time: 2018Äê11ÔÂ28ÈÕ ĞÇÆÚÈı 12Ê±45·Ö38Ãë
 ************************************************************************/
 #ifndef RSA_H_INCLUDED
 #define  RSA_H_INCLUDED
@@ -10,7 +10,7 @@
 using namespace std;
 class RSA {
   public :
-    // éé€’å½’æ‰©å±•æ¬§å‡ é‡Œå¾—
+    // ·Çµİ¹éÀ©Õ¹Å·¼¸ÀïµÃ
     long long exgcd(long long m, long long n, long long &x, long long &y) {
         if (n == 0) {
             x = 1; y = 0;
@@ -36,7 +36,7 @@ class RSA {
         x = a; y = b;
         return d;
     }
-    // æ‰©å±•æ¬§å‡ é‡Œå¾—æ±‚é€†å…ƒ
+    // À©Õ¹Å·¼¸ÀïµÃÇóÄæÔª
     long long inv(long long a, long long mod) {
         long long x, y, d;
         d = exgcd(a, mod, x, y);
@@ -44,7 +44,7 @@ class RSA {
             return (x % mod + mod) % mod;
         return -1;
     }
-    // ç”¨long long è®¡ç®—ä¹˜æ³•çš„æ—¶å€™,æœ‰å¯èƒ½æº¢å‡º,è¯¥ç”¨åŠ æ³•æ›¿æ¢
+    // ÓÃlong long ¼ÆËã³Ë·¨µÄÊ±ºò,ÓĞ¿ÉÄÜÒç³ö,¸ÃÓÃ¼Ó·¨Ìæ»»
     long long mul_mod(long long a, long long b, long long mod) {
 		long long c = 0;
 		while (b) {
@@ -54,7 +54,7 @@ class RSA {
 		}
 		return c;
 	}
-    // åˆ©ç”¨äºŒè¿›åˆ¶çš„å¿«é€Ÿå¹‚
+    // ÀûÓÃ¶ş½øÖÆµÄ¿ìËÙÃİ
     long long pow_mod(long long x, long long n, long long mod) {
 		long long a = 1;
 		while (n) {
@@ -64,7 +64,7 @@ class RSA {
 		}
 		return a;
     }
-    // Miller_Rabinç´ æ•°æµ‹è¯•
+    // Miller_RabinËØÊı²âÊÔ
     bool Miller_Rabin(long long n) {
         if (n < 0) n = -n;
         if (n == 2) return true;
@@ -93,7 +93,7 @@ class RSA {
     long long getPrivateKey() {
         return privateKey;
     }
-    // éšæœºç´ æ•°ç”Ÿæˆ
+    // Ëæ»úËØÊıÉú³É
     long long primeProduce(long long mod = 2e18) {
         srand(rand());
         long long p = rand();
@@ -101,7 +101,7 @@ class RSA {
         while (!Miller_Rabin(p %= mod)) p += 2;
         return abs(p);
     }
-    // åˆå§‹åŒ–èµ‹å€¼p, q, n, phi, å¹¶éšæœºç”ŸæˆpublicKey, privateKey
+    // ³õÊ¼»¯¸³Öµp, q, n, phi, ²¢Ëæ»úÉú³ÉpublicKey, privateKey
     void init() {
         p = primeProduce();
         q = primeProduce();
@@ -118,7 +118,7 @@ class RSA {
         printf ("                     privateKey = %lld\n\n", privateKey);
     }
 
-    // åŠ å¯†,æŠŠæ¯ä¸ªå­—ç¬¦è½¬åŒ–æˆlong long
+    // ¼ÓÃÜ,°ÑÃ¿¸ö×Ö·û×ª»¯³Élong long
     vector<long long> encrypt(string text, long long Key, long long n) {
         long long res;
         vector<long long> entext;
@@ -126,13 +126,13 @@ class RSA {
             res = pow_mod(1ll * i, Key, n);
             entext.push_back(res);
         }
-        puts ("               å¯†æ–‡å¦‚ä¸‹:");
+        puts ("               ÃÜÎÄÈçÏÂ:");
         for (auto i: entext)
 			printf ("               %lld\n", i);
         return entext;
     }
 
-    // è§£å¯†,æŠŠä¸€ç»„long long çš„åºåˆ—è½¬åŒ–ä¸ºå­—ç¬¦ä¸²
+    // ½âÃÜ,°ÑÒ»×élong long µÄĞòÁĞ×ª»¯Îª×Ö·û´®
     string decrypt(vector<long long> text, long long Key, long long n) {
         long long res;
         string detext;
@@ -140,10 +140,11 @@ class RSA {
             res = pow_mod(i, Key, n);
             detext += (char)res;
         }
+        puts ("               Ã÷ÎÄÈçÏÂ:");
         cout << "               " << detext << endl;
         return detext;
     }
-	// å•å…ƒæµ‹è¯•
+	// µ¥Ôª²âÊÔ
 	void test() {
 		puts("testing...\n");
 		n = 2142595640794675597;
@@ -154,14 +155,14 @@ class RSA {
 
 
 		string s, t;
-		puts ("\nè¾“å…¥æ–‡æœ¬\n");
+		puts ("\nÊäÈëÎÄ±¾\n");
 		cin >> s;
 		vector<long long> mi;
-		puts ("\nå¯†æ–‡\n");
+		puts ("\nÃÜÎÄ\n");
 		mi = encrypt(s, publicKey, n);
 		for (auto i: mi)
 			cout << i << endl;
-		puts ("\nè§£å¯†\n");
+		puts ("\n½âÃÜ\n");
 		t = decrypt(mi, privateKey, n);
 		cout << t << endl;
 	}
