@@ -106,6 +106,16 @@ void SJF() {
 		v.push_back(test);
 		system("cls");
 	}
+    getchar();
+
+	puts ("本组作业信息如下\n");
+	puts ("作业名 提交时间 所需运行时间 所需内存 所需磁带机");
+	for (auto i: v) {
+		printf ("%s\t%d\t%d\t\t%d\t%d\n", i.name, i.submitTime, i.needTime, i.memory, i.tape);
+	}
+	puts ("\n请按回车键继续... ...");
+	getchar();
+	system("cls");
 
 	// 内存100K，磁带机5台
 	int memory = 100;
@@ -152,8 +162,50 @@ void SJF() {
 			}
 		}
 
-		for (auto i: temp) wait.push(i);
+		puts ("");
+		printf ("当前时刻：%d\n", time);
+		printf ("当前空闲内存：%d\n", memory);
+		printf ("当前空闲磁带机：%d\n", tape);
+		puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+		puts ("");
+		puts ("已完成作业:");
+		puts("作业名 开始运行时刻 完成时刻 周转时间 带权周转时间");
+		for (auto i: finish) {
+			printf ("%s\t%d\t\t%d\t%d\t%f\n", i.name, i.beginTime, i.finishTime, i.turnTime, 1.0 * i.turnTime / i.needTime);
+		}
+
+		puts("");
+		puts("未提交作业：");
+		puts ("作业名 提交时间 所需运行时间 所需内存 所需磁带机");
+		for (int i = ind; i < v.size(); i++) {
+			printf ("%s\t%d\t%d\t\t%d\t%d\n", v[i].name, v[i].submitTime, v[i].needTime, v[i].memory, v[i].tape);
+		}
+
+		puts ("");
+		puts ("等待中作业：");
+		puts ("作业名 提交时间 所需运行时间 所需内存 所需磁带机");
+		for (auto i: temp) {
+			wait.push(i);
+			printf ("%s\t%d\t%d\t\t%d\t%d\n", i.name, i.submitTime, i.needTime, i.memory, i.tape);
+		}
 		temp.clear();
+
+		puts ("");
+		puts ("运行中作业：");
+		puts ("作业名 开始运行时间 运行结束时间 占用内存 占用磁带机");
+		while (!running.empty()) {
+			auto i = running.top();	running.pop();
+			temp.push_back(i);
+			printf ("%s\t%d\t\t%d\t  %d\t   %d\n", i.name, i.beginTime, i.finishTime, i.memory, i.tape);
+		}
+		for (auto i: temp) running.push(i);
+		temp.clear();
+
+		puts ("");
+		puts ("请按回车键继续... ...");
+		getchar();
+		system("cls");
 	}
 
 	puts("已完成作业！");
