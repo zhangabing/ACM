@@ -2,12 +2,14 @@
 
 using namespace std;
 
+// 内存
 struct node {
 	bool status; // 1为空闲 0为忙碌
 	int memory;
 	string name;
 };
 
+// 打印内存
 void out(vector<node> a) {
 	for (auto i: a) {
 		if (i.status) {
@@ -35,22 +37,27 @@ void firstFit() {
 		cin >> name >> op;
 		scanf ("%dKB", &memory);
 		getchar();
+
+		// 申请内存
 		if (op == "申请") {
 			for (int i = 0; i < v.size(); i++) {
+				// 分配内存大于所需内存，分区
 				if (v[i].status && v[i].memory > memory) {
 					v[i].memory -= memory;
 					v.insert (v.begin() + i, node{false, memory, name});
 					break;
 				} else if (v[i].status && v[i].memory == memory) {
+					// 分配内存等于所需内存，无需分区
 					v[i].status = false;
 					v[i].name = name;
 					break;
 				}
 			}
-		} else {
+		} else { // 释放内存
 			for (int i = 0; i < v.size(); i++) {
 				if (v[i].name == name) {
 					v[i].status = true;
+					// 前后合并
 					if (i + 1 < v.size() && v[i + 1].status) {
 						v[i].memory += v[i + 1].memory;
 						v.erase(v.begin() + i + 1);
@@ -99,13 +106,17 @@ void bestFit() {
 		scanf ("%dKB", &memory);
 		getchar();
 		int ind = -1;
+
+		// 申请内存
 		if (op == "申请") {
+			// 查找最适合内存
 			for (int i = 0; i < v.size(); i++) {
 				if (v[i].status && v[i].memory >= memory) {
 					if (ind == -1 || v[ind].memory > v[i].memory)
 						ind = i;
 				}
 			}
+			// 进行分配
 			if (v[ind].memory == memory) {
 				v[ind].status = false;
 				v[ind].name = name;
@@ -114,9 +125,11 @@ void bestFit() {
 				v.insert (v.begin() + ind, node{false, memory, name});
 			}
 		} else {
+			// 释放内存
 			for (int i = 0; i < v.size(); i++) {
 				if (v[i].name == name) {
 					v[i].status = true;
+					// 前后合并
 					if (i + 1 < v.size() && v[i + 1].status) {
 						v[i].memory += v[i + 1].memory;
 						v.erase(v.begin() + i + 1);
@@ -129,6 +142,7 @@ void bestFit() {
 				}
 			}
 		}
+
 		puts ("");
 		puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		puts ("");
