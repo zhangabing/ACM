@@ -52,6 +52,7 @@ void input () {
 		v.push_back(test);
 		system("cls");
 	}
+	getchar();
 }
 
 // 先来先服务, 单道批处理
@@ -62,6 +63,18 @@ void FCFS() {
 	// 把所有作业根据提交时间排序
 	sort (q.begin(), q.end(), cmp);
 
+	puts ("\n本组作业信息按照提交时间排序后如下：");
+	puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	puts ("作业名 提交时间 所需运行时间");
+	for (int j = 0; j < q.size(); j++) {
+		printf ("%s\t%d\t%d\n", q[j].name, q[j].submitTime, q[j].needTime);
+	}
+	puts ("");
+
+	puts ("请按回车键继续... ...");
+	getchar();
+	system("cls");
+
 	int nowTime = 0; // CPU时间
 
 	// 开始作业
@@ -70,6 +83,29 @@ void FCFS() {
 		i.finishTime = i.beginTime + i.needTime;
 		i.turnTime = i.finishTime - i.submitTime;
 		nowTime = i.finishTime;
+		printf ("\n现在时刻：%d\n", nowTime);
+		puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		puts ("");
+		puts ("已完成作业如下：");
+		puts ("作业名 开始运行时刻 完成时刻 周转时间 带权周转时间");
+		int j = 0;
+		for (; j < q.size(); j++) {
+			printf ("%s\t%d\t\t%d\t%d\t%f\n", q[j].name, q[j].beginTime, q[j].finishTime, q[j].turnTime, 1.0 * q[j].turnTime / q[j].needTime);
+			if  (q[j].name == i.name)
+				break;
+		}
+		puts ("");
+
+		puts ("未完成作业如下: ");
+		puts ("作业名 提交时间 所需运行时间");
+		for (j = j + 1; j < q.size(); j++) {
+			printf ("%s\t%d\t%d\n", q[j].name, q[j].submitTime, q[j].needTime);
+		}
+		puts ("");
+
+		puts ("请按回车键继续... ...");
+		getchar();
+		system("cls");
 	}
 	puts("已完成作业！");
 	puts("作业名 开始运行时刻 完成时刻 周转时间 带权周转时间");
@@ -208,7 +244,8 @@ void SJF() {
 		system("cls");
 	}
 
-	puts("已完成作业！");
+	puts("\n已完成作业！");
+	puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	puts("作业名 开始运行时刻 完成时刻 周转时间 带权周转时间");
 	double avgturn = 0, avgvalue = 0;
 	for (auto i: finish) {
@@ -221,8 +258,8 @@ void SJF() {
 }
 
 int main() {
-//	FCFS();
-	SJF();
+	FCFS();
+//	SJF();
 	return 0;
 }
 
@@ -230,7 +267,7 @@ int main() {
 5
 A 0 4
 B 5 3
-C 3 4
+C 3 2
 D 2 7
 E 4 1
 
