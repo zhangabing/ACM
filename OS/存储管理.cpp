@@ -11,9 +11,9 @@ struct node {
 void out(vector<node> a) {
 	for (auto i: a) {
 		if (i.status) {
-			printf ("该区内存 %d KB，状态 空闲\n", i.memory);
+			printf ("该区内存 %4d KB，状态 空闲\n", i.memory);
 		} else {
-			printf ("该区内存 %d KB，状态 忙碌，作业名 ", i.memory);
+			printf ("该区内存 %4d KB，状态 忙碌，作业名 ", i.memory);
 			cout << i.name << endl;
 		}
 	}
@@ -24,23 +24,24 @@ void firstFit() {
 	int num;
 	string name, op;
 	int memory;
-	puts ("请输入请求个数：");
+	printf ("请输入请求个数：");
 	scanf ("%d", &num);
 	system("cls");
 
 	vector<node> v;
-	v.push_back(node{1, 600, name});
+	v.push_back(node{true, 600, name});
 	while (num --) {
-		puts ("请输入详细请求：");
+		printf ("请输入详细请求：");
 		cin >> name >> op;
 		scanf ("%dKB", &memory);
+		getchar();
 		if (op == "申请") {
 			for (int i = 0; i < v.size(); i++) {
 				if (v[i].status && v[i].memory > memory) {
 					v[i].memory -= memory;
 					v.insert (v.begin() + i, node{false, memory, name});
 					break;
-				} else if (v[i].status) {
+				} else if (v[i].status && v[i].memory == memory) {
 					v[i].status = false;
 					v[i].name = name;
 					break;
@@ -50,11 +51,14 @@ void firstFit() {
 			for (int i = 0; i < v.size(); i++) {
 				if (v[i].name == name) {
 					v[i].status = true;
-					if (i + 1 < v.size() && v[i + 1].status == true) {
+					if (i + 1 < v.size() && v[i + 1].status) {
 						v[i].memory += v[i + 1].memory;
 						v.erase(v.begin() + i + 1);
 					}
-					if (i - 1 >= 0 && )
+					if (i - 1 >= 0 && v[i - 1].status) {
+						v[i - 1].memory += v[i].memory;
+						v.erase(v.begin() + i);
+					}
 					break;
 				}
 			}
@@ -62,16 +66,90 @@ void firstFit() {
 		puts ("");
 		puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		puts ("");
+		puts ("当前内存区分配如下：");
+		out (v);
+		puts ("");
+		puts ("请按回车键继续... ...");
+		getchar();
+		system("cls");
 	}
+	puts ("");
+	puts ("已完成所有申请！");
+	puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	puts ("最终内存分配如下：\n");
+	out (v);
+	puts ("");
+
 }
 
 // 最佳适应算法
 void bestFit() {
+	int num;
+	string name, op;
+	int memory;
+	printf ("请输入请求个数：");
+	scanf ("%d", &num);
+	system("cls");
 
+	vector<node> v;
+	v.push_back(node{1, 600, name});
+	while (num --) {
+		printf ("请输入详细请求：");
+		cin >> name >> op;
+		scanf ("%dKB", &memory);
+		getchar();
+		int ind = -1;
+		if (op == "申请") {
+			for (int i = 0; i < v.size(); i++) {
+				if (v[i].status && v[i].memory >= memory) {
+					if (ind == -1 || v[ind].memory > v[i].memory)
+						ind = i;
+				}
+			}
+			if (v[ind].memory == memory) {
+				v[ind].status = false;
+				v[ind].name = name;
+			} else {
+				v[ind].memory -= memory;
+				v.insert (v.begin() + ind, node{false, memory, name});
+			}
+		} else {
+			for (int i = 0; i < v.size(); i++) {
+				if (v[i].name == name) {
+					v[i].status = true;
+					if (i + 1 < v.size() && v[i + 1].status) {
+						v[i].memory += v[i + 1].memory;
+						v.erase(v.begin() + i + 1);
+					}
+					if (i - 1 >= 0 && v[i - 1].status) {
+						v[i - 1].memory += v[i].memory;
+						v.erase(v.begin() + i);
+					}
+					break;
+				}
+			}
+		}
+		puts ("");
+		puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		puts ("");
+		puts ("当前内存区分配如下：");
+		out (v);
+		puts ("");
+		puts ("请按回车键继续... ...");
+		getchar();
+		system("cls");
+	}
+	puts ("");
+	puts ("已完成所有申请！");
+	puts ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	puts ("最终内存分配如下：\n");
+	out (v);
+	puts ("");
 }
 
 int main() {
-
+//	firstFit();
+	bestFit();
 	return 0;
 }
 
