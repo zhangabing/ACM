@@ -1,179 +1,179 @@
 /************************************************************************
-    > File Name: è¿›ç¨‹è°ƒåº¦.cpp
+    > File Name: ½ø³Ìµ÷¶È.cpp
     > Author: zhangab
-    > Mail: 2411035458@qq.com 
-    > Created Time: 2018å¹´12æœˆ07æ—¥ æ˜ŸæœŸäº” 17æ—¶15åˆ†29ç§’
+    > Mail: 2411035458@qq.com
+    > Created Time: 2018Äê12ÔÂ07ÈÕ ĞÇÆÚÎå 17Ê±15·Ö29Ãë
 ************************************************************************/
 #include <bits/stdc++.h>
 
 using namespace std;
 
-struct pcb { // è¿›ç¨‹
-    string name; // è¿›ç¨‹å
-    int toltime; // è¿›ç¨‹æ€»éœ€è¦CPUæ—¶é—´ç‰‡
-    int nowtime; // è¿›ç¨‹å·²å æœ‰CPUæ—¶é—´ç‰‡
-    bool finish() { // è¿›ç¨‹æ˜¯å¦å®Œæˆ
+struct pcb { // ½ø³Ì
+    string name; // ½ø³ÌÃû
+    int toltime; // ½ø³Ì×ÜĞèÒªCPUÊ±¼äÆ¬
+    int nowtime; // ½ø³ÌÒÑÕ¼ÓĞCPUÊ±¼äÆ¬
+    bool finish() { // ½ø³ÌÊÇ·ñÍê³É
         return nowtime >= toltime;
     }
 };
-vector<pcb> v; // è¯»å…¥æ‰€æœ‰è¿›ç¨‹
-int num; // è¿›ç¨‹å·
+vector<pcb> v; // ¶ÁÈëËùÓĞ½ø³Ì
+int num; // ½ø³ÌºÅ
 
-// å·²å ç”¨æ—¶é—´ç‰‡ä¸å¤§äºæ€»éœ€è¦æ—¶é—´ç‰‡
+// ÒÑÕ¼ÓÃÊ±¼äÆ¬²»´óÓÚ×ÜĞèÒªÊ±¼äÆ¬
 void check(pcb & a) {
     a.nowtime = min (a.nowtime, a.toltime);
 }
 
-// è¾“å‡ºæ‰€æœ‰è¿›ç¨‹
+// Êä³öËùÓĞ½ø³Ì
 void display(vector<pcb> a) {
     for (auto i: a) {
-        cout << "è¿›ç¨‹å : " << i.name;
-        printf ("\tè¿›ç¨‹å·²å CPUæ—¶é—´ç‰‡ : %d\tè¿›ç¨‹æ‰€éœ€CPUæ—¶é—´ç‰‡ : %d\n", i.nowtime, i.toltime);
+        cout << "½ø³ÌÃû : " << i.name;
+        printf ("\t½ø³ÌÒÑÕ¼CPUÊ±¼äÆ¬ : %d\t½ø³ÌËùĞèCPUÊ±¼äÆ¬ : %d\n", i.nowtime, i.toltime);
     }
 }
 
-// è¯»å…¥è¿›ç¨‹
+// ¶ÁÈë½ø³Ì
 void input() {
     v.clear();
-    printf ("è¯·è¾“å…¥è¿›ç¨‹å·: ");
+    printf ("ÇëÊäÈë½ø³ÌºÅ: ");
     cin >> num;
-    system("clear");
+    system("clr");
     pcb test;
     for (int i = 0; i < num; i++) {
-        printf ("è¯·è¾“å…¥è¿›ç¨‹å:");
+        printf ("ÇëÊäÈë½ø³ÌÃû:");
         cin >> test.name;
-        printf ("è¯·è¾“å…¥è¿›ç¨‹å·²å CPUæ—¶é—´ç‰‡:");
+        printf ("ÇëÊäÈë½ø³ÌÒÑÕ¼CPUÊ±¼äÆ¬:");
         cin >> test.nowtime;
-        printf ("è¯·è¾“å…¥è¿›ç¨‹æ‰€éœ€CPUæ—¶é—´ç‰‡:");
+        printf ("ÇëÊäÈë½ø³ÌËùĞèCPUÊ±¼äÆ¬:");
         cin >> test.toltime;
         v.push_back(test);
-        system("clear");
+        system("clr");
     }
 //    display(v);
 }
 
-// è¿›ç¨‹è·å–CPUæ—¶é—´ç‰‡
+// ½ø³Ì»ñÈ¡CPUÊ±¼äÆ¬
 pcb solve(pcb a, int t) {
     a.nowtime += (t - a.nowtime % t);
     check(a);
-    printf ("å½“å‰è¿è¡Œçš„è¿›ç¨‹æ˜¯ : ");
+    printf ("µ±Ç°ÔËĞĞµÄ½ø³ÌÊÇ : ");
     cout << a.name << endl;
     return a;
 }
 
-// å¤šçº§åé¦ˆé˜Ÿåˆ—, ç¬¬ä¸€çº§æ—¶é—´ç‰‡ä¸º1,åé¢çš„æ—¶é—´ç‰‡ä¸ºå‰é¢ä¸€ä¸ªçš„æ—¶é—´ç‰‡çš„2å€
+// ¶à¼¶·´À¡¶ÓÁĞ, µÚÒ»¼¶Ê±¼äÆ¬Îª1,ºóÃæµÄÊ±¼äÆ¬ÎªÇ°ÃæÒ»¸öµÄÊ±¼äÆ¬µÄ2±¶
 void mulFeedQue() {
-    const int N = 3; // é˜Ÿåˆ—ä¸ªæ•°
+    const int N = 3; // ¶ÓÁĞ¸öÊı
     vector<pcb> que[N], finish;
 
-    // æŠŠæ‰€æœ‰è¿›ç¨‹æ”¾å…¥ç¬¬ä¸€é˜Ÿåˆ—
+    // °ÑËùÓĞ½ø³Ì·ÅÈëµÚÒ»¶ÓÁĞ
     for (auto i: v) {
         que[0].push_back(i);
     }
-    puts ("å‡†å¤‡å°±ç»ªè¿›ç¨‹:");
+    puts ("×¼±¸¾ÍĞ÷½ø³Ì:");
     for (int i = 0; i < N; i++) {
-        printf ("ç¬¬%dé˜Ÿåˆ—:\n", i + 1);
+        printf ("µÚ%d¶ÓÁĞ:\n", i + 1);
         display(que[i]);
     }
     puts ("");
     getchar();
 
     while (1) {
-        puts ("æŒ‰å›è½¦é”®ç»§ç»­\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        puts ("°´»Ø³µ¼ü¼ÌĞø\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         getchar();
-        system("clear");
+        system("clr");
 
-        // ä»ç¬¬ä¸€çº§é˜Ÿåˆ—å¾€åæ‰¾éç©ºçš„å‡†å¤‡é˜Ÿåˆ—
+        // ´ÓµÚÒ»¼¶¶ÓÁĞÍùºóÕÒ·Ç¿ÕµÄ×¼±¸¶ÓÁĞ
         int ind = 0;
         while (ind < N && que[ind].size() == 0) ind++;
 
-        // æ‰€æœ‰é˜Ÿåˆ—ä¸ºç©ºå³è¿›ç¨‹å·²å®Œæˆ
+        // ËùÓĞ¶ÓÁĞÎª¿Õ¼´½ø³ÌÒÑÍê³É
         if (ind >= N) break;
 
-        // å–å‡ºè¿›ç¨‹
+        // È¡³ö½ø³Ì
         pcb test = que[ind][0];
         que[ind].erase(que[ind].begin());
 
-        // è·å–æ—¶é—´ç‰‡,ç¬¬içº§é˜Ÿåˆ—å¯¹åº”2^(i-1)ä¸ªæ—¶é—´ç‰‡
+        // »ñÈ¡Ê±¼äÆ¬,µÚi¼¶¶ÓÁĞ¶ÔÓ¦2^(i-1)¸öÊ±¼äÆ¬
         test = solve(test, 1 << ind);
 
-        // å·²å®Œæˆåˆ™æ”¾å…¥å·²å®Œæˆé˜Ÿåˆ—
+        // ÒÑÍê³ÉÔò·ÅÈëÒÑÍê³É¶ÓÁĞ
         if (test.finish()) {
             finish.push_back(test);
         } else {
-            // å¦åˆ™æ”¾å…¥ä¸‹çº§é˜Ÿåˆ—,è‹¥å·²ç»æ˜¯æœ€åé˜Ÿåˆ—åˆ™ç®€å•è½®è½¬
+            // ·ñÔò·ÅÈëÏÂ¼¶¶ÓÁĞ,ÈôÒÑ¾­ÊÇ×îºó¶ÓÁĞÔò¼òµ¥ÂÖ×ª
             ind = min(N - 1, ind + 1);
             que[ind].push_back(test);
         }
-        puts ("å·²å®Œæˆè¿›ç¨‹:");
+        puts ("ÒÑÍê³É½ø³Ì:");
         display(finish);
         puts("");
-        puts ("å‡†å¤‡å°±ç»ªè¿›ç¨‹:");
+        puts ("×¼±¸¾ÍĞ÷½ø³Ì:");
         for (int i = 0; i < N; i++) {
-            printf ("ç¬¬%dé˜Ÿåˆ—:\n", i + 1);
+            printf ("µÚ%d¶ÓÁĞ:\n", i + 1);
             display(que[i]);
         }
         puts ("");
     }
-    printf ("è¿›ç¨‹å·²å®Œæˆ!\n");
+    printf ("½ø³ÌÒÑÍê³É!\n");
 }
 
-// å¯å˜æ—¶é—´ç‰‡è½®è½¬æ³•, æ¯ä¸€è½®çš„æ—¶é—´ç‰‡å¤§å°ä¸ºå‡†å¤‡å°±ç»ªè¿›ç¨‹å®é™…æ‰€éœ€æ—¶é—´ç‰‡å‡å€¼
+// ¿É±äÊ±¼äÆ¬ÂÖ×ª·¨, Ã¿Ò»ÂÖµÄÊ±¼äÆ¬´óĞ¡Îª×¼±¸¾ÍĞ÷½ø³ÌÊµ¼ÊËùĞèÊ±¼äÆ¬¾ùÖµ
 void variableTimeRR() {
-    int timeSlice; // æ—¶é—´ç‰‡
+    int timeSlice; // Ê±¼äÆ¬
     vector<pcb> que = v, finish, temp;
 
-    puts ("å‡†å¤‡å°±ç»ªè¿›ç¨‹:");
+    puts ("×¼±¸¾ÍĞ÷½ø³Ì:");
     display(que);
     puts ("");
     getchar();
-    puts ("æŒ‰å›è½¦é”®ç»§ç»­\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    puts ("°´»Ø³µ¼ü¼ÌĞø\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     getchar();
-    system("clear");
+    system("clr");
 
     while (que.size()) {
 
-        // è®¾å®šæ—¶é—´ç‰‡å¤§å°
+        // Éè¶¨Ê±¼äÆ¬´óĞ¡
         timeSlice = 0;
         for (auto i: que) {
             timeSlice += i.toltime - i.nowtime;
         }
-        timeSlice = timeSlice / que.size() + (timeSlice % que.size() != 0); // å‘ä¸Šå–æ•´
+        timeSlice = timeSlice / que.size() + (timeSlice % que.size() != 0); // ÏòÉÏÈ¡Õû
 
         while (que.size()) {
-            printf ("å½“å‰çš„æ—¶é—´ç‰‡å¤§å°ä¸º %d\n", timeSlice);
+            printf ("µ±Ç°µÄÊ±¼äÆ¬´óĞ¡Îª %d\n", timeSlice);
             puts("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            
-            // å½“å‰è¿›ç¨‹è·å–æ—¶é—´ç‰‡
+
+            // µ±Ç°½ø³Ì»ñÈ¡Ê±¼äÆ¬
             que[0].nowtime += timeSlice;
             check(que[0]);
-            
-            // è‹¥æ˜¯å·²å®Œæˆåˆ™æ”¾å…¥å·²å®Œæˆé˜Ÿåˆ—
+
+            // ÈôÊÇÒÑÍê³ÉÔò·ÅÈëÒÑÍê³É¶ÓÁĞ
             if (que[0].finish()) {
                 finish.push_back(que[0]);
             } else {
-                // å¦åˆ™æ”¾å…¥å‡†å¤‡é˜Ÿåˆ—
+                // ·ñÔò·ÅÈë×¼±¸¶ÓÁĞ
                 temp.push_back(que[0]);
             }
-            printf ("å½“å‰è¿è¡Œçš„è¿›ç¨‹æ˜¯ : ");
+            printf ("µ±Ç°ÔËĞĞµÄ½ø³ÌÊÇ : ");
             cout << que[0].name << endl;
             que.erase(que.begin());
-            puts ("å·²å®Œæˆè¿›ç¨‹:");
+            puts ("ÒÑÍê³É½ø³Ì:");
             display(finish);
             puts("");
-            puts ("å‡†å¤‡å°±ç»ªè¿›ç¨‹:");
+            puts ("×¼±¸¾ÍĞ÷½ø³Ì:");
             display(que);
             display(temp);
             puts("");
-            puts ("æŒ‰å›è½¦é”®ç»§ç»­...\n");
+            puts ("°´»Ø³µ¼ü¼ÌĞø...\n");
             getchar();
-            system("clear");
+            system("clr");
         }
         que = temp;
         temp.clear();
     }
 
-    printf ("è¿›ç¨‹å·²å®Œæˆ!\n");
+    printf ("½ø³ÌÒÑÍê³É!\n");
 }
 
 int main() {
