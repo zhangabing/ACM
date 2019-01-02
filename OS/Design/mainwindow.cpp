@@ -146,6 +146,8 @@ MainWindow::MainWindow(QWidget *parent) :
     button2 = new QPushButton("随机生成", widgetbuttun);
     layoutbutton->addWidget(button2);
 
+    // 写入进程信号槽
+    QObject::connect(button1, &QPushButton::clicked, &MainWindow::add);
 
     // 定义left窗口，并加入down的布局
     QWidget *left = new QWidget;

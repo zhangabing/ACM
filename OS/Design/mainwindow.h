@@ -8,6 +8,8 @@
 #include <QSpinBox>
 #include <QPushButton>
 
+#include "job.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -35,8 +37,18 @@ public:
     QPushButton *button; // 执行按钮
     int id;              // 输入作业id
 
+
+
+    JOB *scheduling = new JOB;
+
     void show() {
         win.show();
+    }
+
+    void add() {
+        scheduling->add(editname->text(), Boxenter->value(), Boxrun->value(), Boxpri->value(), id);
+        table->setItem(id, 0, new QTableWidgetItem(editname->text()));
+        id ++;
     }
 
 private:
