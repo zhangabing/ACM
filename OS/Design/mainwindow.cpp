@@ -143,11 +143,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     button1 = new QPushButton("手动写入", widgetbuttun);
     layoutbutton->addWidget(button1);
-    button2 = new QPushButton("随机生成", widgetbuttun);
+    button2 = new QPushButton("一键生成", widgetbuttun);
     layoutbutton->addWidget(button2);
 
-    // 写入进程信号槽
-    QObject::connect(button1, &QPushButton::clicked, &MainWindow::add);
+    // 手动写入信号槽
+    QObject::connect(button1, &QPushButton::clicked, this, &MainWindow::add);
+
+    // 一键生成信号槽
+    QObject::connect(button2, &QPushButton::clicked, this, &MainWindow::generate);
 
     // 定义left窗口，并加入down的布局
     QWidget *left = new QWidget;
@@ -189,6 +192,8 @@ MainWindow::MainWindow(QWidget *parent) :
     button->setFixedSize(100, high);
     layoutleft->addWidget(button);
 
+    // 执行信号槽
+    QObject::connect(button, &QPushButton::clicked, this, &MainWindow::run);
 }
 
 MainWindow::~MainWindow()
