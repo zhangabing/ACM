@@ -38,10 +38,8 @@ public:
     QPushButton *button2;// 随机生成
     QPushButton *button; // 执行按钮
     int id = 0;           // 输入作业id
-    int time = -1;
-
-
-    JOB *scheduling = new JOB;
+    int time = -1;       // 系统时间
+    JOB *scheduling = new JOB; // 作业群
 
     void show() {
         win.show();
@@ -148,6 +146,16 @@ public:
             scheduling->running.push_back(scheduling->ready[0]);
             scheduling->ready.erase(scheduling->ready.begin());
         }
+
+        if (scheduling->running.size() > 1) { // 把优先级高的放在前面，并修改进程状态
+            if (scheduling->running[0].priority > scheduling->running[1].priority) {
+                std::swap(scheduling->running[0], scheduling->running[1]);
+            }
+            scheduling->running[1].PCBstatus = 0;
+        }
+        if (scheduling->running.size())
+            scheduling->running[0].PCBstatus = 1;
+
 
         // 修改表格
         for (auto i: scheduling->unsubmit) {
